@@ -11,6 +11,7 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"runtime/debug"
 	"strconv"
 	"strings"
 	"syscall"
@@ -37,6 +38,9 @@ Keys: tab/n next source, p previous, a auto-follow, s status line, q quit.
 `
 
 func main() {
+	if bi, ok := debug.ReadBuildInfo(); ok && version == "dev" && bi.Main.Version != "" && bi.Main.Version != "(devel)" {
+		version = bi.Main.Version
+	}
 	log.SetFlags(0)
 	args := os.Args[1:]
 	cmd := ""
